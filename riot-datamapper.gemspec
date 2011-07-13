@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = Riot::Datamapper::VERSION
   s.authors     = ["Arthur Chiu"]
   s.email       = ["mr.arthur.chiu@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.homepage    = "https://www.github.com/achiu/riot-datamapper"
+  s.summary     = %q{Riot Assertion Macros for DataMapper}
+  s.description = %q{Riot Assertion Macros for DataMapper}
 
   s.rubyforge_project = "riot-datamapper"
 
