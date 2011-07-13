@@ -59,7 +59,7 @@ context "FooBar Model" do
 end
 ```
 
-### TODO ###
+## TODO ##
 
 * Add more macros
 * Add validation macros so you can do something like #has_validation :validates_presence_of
