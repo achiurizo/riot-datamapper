@@ -18,7 +18,16 @@ module Riot
 
         return fail(fail_msg) if relationship.nil?
 
-        if relationship.class.to_s.include? MAPPINGS[type]
+        if options[:through]
+          through_type = 'ManyToMany'
+          if relationship.through.name == options[:through]
+            pass_msg << options_msg
+          else
+            return fail(fail_msg + options_msg)
+          end
+        end
+
+        if relationship.class.to_s.include?(through_type || MAPPINGS[type])
           pass_msg << type_msg
         else
           return fail(fail_msg + type_msg)
