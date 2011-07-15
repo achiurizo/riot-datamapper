@@ -42,7 +42,7 @@ class User
   property :monkey, Boolean, :default => false
   property :name,   String,  :default => 'monkey', :required => true
 
-  has n, :comments
+  has n, :comments, :through => :posts
   has 1, :address
 end
 
@@ -58,7 +58,17 @@ class Comment
   property :title, String
   property :body,  Text
 
+  belongs_to :post
   belongs_to :user
+end
+
+
+class Post
+
+  property :title, String
+  property :body,  Text
+
+  has n, :comments
 end
 ```
 
@@ -75,15 +85,15 @@ context "User Model" do
   asserts_topic.has_property :monkey, 'Boolean', :default => false
   asserts_topic.has_property :name,   'String',  :default => 'monkey', :required => true
 
-  asserts_topic.has_association :has_n, :comments
+  asserts_topic.has_association :has_n, :comments, :through => :posts
   asserts_topic.has_association :has 1, :address
 end
 
 context "Address Model" do
   setup { Address }
 
-  asserts_topic.has_property :street, String
-  asserts_topic.has_property :city,   String
+  asserts_topic.has_property :street, 'String'
+  asserts_topic.has_property :city,   'String'
 
   asserts_topic.has_association :belongs_to, :user
 end
@@ -91,10 +101,21 @@ end
 context "Comment Model" do
   setup { Comment }
 
-  asserts_topic.has_property :title, String
-  asserts_topic.has_property :body,  Text
+  asserts_topic.has_property :title, 'String'
+  asserts_topic.has_property :body,  'Text'
 
+  asserts_topic.has_association :belongs_to, :post
   asserts_topic.has_association :belongs_to, :user
+end
+
+context "Post Model" do
+  setup { Post }
+
+  asserts_topic.has_property :title, 'String'
+  asserts_topic.has_property :body,  'Text'
+
+
+  asserts_topic.has_association :has_n, :comments
 end
 ```
 
