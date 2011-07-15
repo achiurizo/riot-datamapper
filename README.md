@@ -34,13 +34,31 @@ Given a model like:
 ```ruby
 # foo_bar.rb
 
-class FooBar
+class User
   include DataMapper::Resource
 
   property :foo,    String
   property :bar,    Serial
   property :monkey, Boolean, :default => false
   property :name,   String,  :default => 'monkey', :required => true
+
+  has n, :comments
+  has 1, :address
+end
+
+class Address
+  property :street, String
+  property :city,   String
+
+  belongs_to :user
+end
+
+class Comment
+
+  property :title, String
+  property :body,  Text
+
+  belongs_to :user
 end
 ```
 
@@ -49,13 +67,34 @@ You can test this like so:
 ```ruby
 # foo_bar_test.rb
 
-context "FooBar Model" do
-  setup { FooBar }
+context "User Model" do
+  setup { User }
 
   asserts_topic.has_property :foo
   asserts_topic.has_property :bar,    'Serial'
   asserts_topic.has_property :monkey, 'Boolean', :default => false
   asserts_topic.has_property :name,   'String',  :default => 'monkey', :required => true
+
+  asserts_topic.has_association :has_n, :comments
+  asserts_topic.has_association :has 1, :address
+end
+
+context "Address Model" do
+  setup { Address }
+
+  asserts_topic.has_property :street, String
+  asserts_topic.has_property :city,   String
+
+  asserts_topic.has_association :belongs_to, :user
+end
+
+context "Comment Model" do
+  setup { Comment }
+
+  asserts_topic.has_property :title, String
+  asserts_topic.has_property :body,  Text
+
+  asserts_topic.has_association :belongs_to, :user
 end
 ```
 
