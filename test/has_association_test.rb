@@ -28,7 +28,7 @@ context "has_association macro" do
       property :id,  Serial
 
       belongs_to :user
-      belongs_to :post
+      belongs_to :post, :required => false
     end
     DataMapper.finalize
   end
@@ -49,10 +49,6 @@ context "has_association macro" do
     Riot::DataMapper::HasAssociation.new.evaluate(Post,:has_n, :users, :through => :bubbles).first
   end.equals :fail
 
-  asserts "that it passes when the model belongs_to :post" do
-    Riot::DataMapper::HasAssociation.new.evaluate(Comment, :belongs_to, :post).first
-  end.equals :pass
-
   asserts "that it fails when the model does not belongs_to :foo" do
     Riot::DataMapper::HasAssociation.new.evaluate(Comment, :belongs_to, :foo).first
   end.equals :fail
@@ -68,5 +64,21 @@ context "has_association macro" do
   asserts "that it passes when the model belongs_to :user" do
     Riot::DataMapper::HasAssociation.new.evaluate(Comment, :belongs_to, :user).first
   end.equals :pass
+
+  asserts "that it passes when the model belongs_to :user" do
+    Riot::DataMapper::HasAssociation.new.evaluate(Comment, :belongs_to, :user).first
+  end.equals :pass
+
+  asserts "that it fails when the model belongs_to :wah" do
+    Riot::DataMapper::HasAssociation.new.evaluate(Comment, :belongs_to, :wah).first
+  end.equals :fail
+
+  asserts "that it passes when the model belongs_to :post, :required => false" do
+    Riot::DataMapper::HasAssociation.new.evaluate(Comment, :belongs_to, :post, :required => false).first
+  end.equals :pass
+
+  asserts "that it fails when the model belongs_to :post, :required => true" do
+    Riot::DataMapper::HasAssociation.new.evaluate(Comment, :belongs_to, :post, :required => true).first
+  end.equals :fail
 
 end

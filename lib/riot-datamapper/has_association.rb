@@ -27,6 +27,14 @@ module Riot
           end
         end
 
+        if options[:required]
+          if relationship.instance_variable_get("@required") == options[:required]
+            pass_msg << options_msg unless options[:through]
+          else
+            return fail(fail_msg + options_msg)
+          end
+        end
+
         if relationship.class.to_s.include?(through_type || MAPPINGS[type])
           pass_msg << type_msg
         else
