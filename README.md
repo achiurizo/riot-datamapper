@@ -59,7 +59,7 @@ class Comment
   property :body,  Text
 
   belongs_to :post
-  belongs_to :user
+  belongs_to :user, :required => false
 end
 
 
@@ -105,7 +105,7 @@ context "Comment Model" do
   asserts_topic.has_property :body,  'Text'
 
   asserts_topic.has_association :belongs_to, :post
-  asserts_topic.has_association :belongs_to, :user
+  asserts_topic.has_association :belongs_to, :user, :required => false
 end
 
 context "Post Model" do
