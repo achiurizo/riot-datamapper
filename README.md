@@ -39,11 +39,16 @@ class User
 
   property :foo,    String
   property :bar,    Serial
+  property :buzz,   Integer
   property :monkey, Boolean, :default => false
   property :name,   String,  :default => 'monkey', :required => true
 
   has n, :comments, :through => :posts
   has 1, :address
+
+  validates_presence_of  :foo
+  validates_uniquness_of :bar
+  validates_length_of    :buzz, :maximum => 20
 end
 
 class Address
@@ -87,6 +92,10 @@ context "User Model" do
 
   asserts_topic.has_association :has_n, :comments, :through => :posts
   asserts_topic.has_association :has 1, :address
+
+  asserts_topic.has_validation :validates_presence_of,  :foo
+  asserts_topic.has_validation :validates_uniquness_of, :bar
+  asserts_topic.has_validation :validates_length_of,    :buzz, :maximum => 20
 end
 
 context "Address Model" do
@@ -118,11 +127,6 @@ context "Post Model" do
   asserts_topic.has_association :has_n, :comments
 end
 ```
-
-## TODO ##
-
-* Add more macros
-* Add validation macros so you can do something like #has_validation :validates_presence_of
 
 ## Copyright
 
